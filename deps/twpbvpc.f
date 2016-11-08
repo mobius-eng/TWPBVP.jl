@@ -73,6 +73,8 @@
       intrinsic abs, min
 
       parameter ( zero = 0.0d+0 )
+C Just for a moment to force printing
+      iprint = 1
 
 *  Check for invalid input parameters.  If any parameters are
 *  invalid, exit with the flag iflbvp set to -1.
@@ -3333,6 +3335,7 @@ c  at the initial point of the line search.
       return
       end
 
+
       subroutine fneval(ncomp, nmsh, xx, nudim, u, fval, fsub,rpar,ipar)
       implicit double precision (a-h,o-z)
       dimension rpar(*),ipar(*)
@@ -3343,7 +3346,13 @@ c  at the initial point of the line search.
 *  a given mesh xx and array u, and stores the values
 *  in the array fval.
 
+      write(6,998)
+  998 format(1h ,'Before calling fsub')
+
       call fsub (ncomp, xx(1), u(1,1), fval(1,1),rpar,ipar)
+
+      write(6,999)
+  999 format(1h ,'After calling fsub')
 
       do 50 im = 1, nmsh-1
          hmsh = xx(im+1) - xx(im)

@@ -3,14 +3,24 @@ module TWPBVP
 
 export twpbvpc
 
-const libtwpbvpc = joinpath(Pkg.dir("TWPBVP"), "deps", "libtwpbvpc.so")
-
-immutable TWPBVPCProblem
+type TWPBVPCProblem
 	fsub :: Function
 	dfsub :: Function
 	gsub :: Function
 	dgsub :: Function
 end
+
+function __init__()
+	global const libtwpbvpc = joinpath(Pkg.dir("TWPBVP"), "deps", "libtwpbvpc.so")
+	global const fsub_ptr = cfunction(unsafe_fsub, Void, (Ref{Int64}, Ref{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Void}, Ptr{Int64}))
+
+	global const dfsub_ptr = cfunction(unsafe_dfsub, Void, (Ref{Int64}, Ref{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Int64}))
+
+	global const gsub_ptr = cfunction(unsafe_gsub, Void, (Ref{Int64}, Ref{Int64}, Ptr{Float64}, Ref{Float64}, Ptr{Float64}, Ptr{Int64}))
+
+	global const dgsub_ptr = cfunction(unsafe_dgsub, Void, (Ref{Int64}, Ref{Int64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Int64}))
+end
+
 
 """
 Provides the conversion betweeen Julia's function (including closures)
@@ -18,19 +28,19 @@ and Fortran's subroutine. The closure is passed in `rpar` parameter
 that Fortran believes to be an array of Float64, it never looks into it
 anyway and only passes it around.
 """
-function unsafe_fsub(rn :: Ref{Int64}, rx :: Ref{Float64}, py :: Ptr{Float64}, pdy :: Ptr{Float64}, rpar :: Ptr{Float64}, ipar :: Ptr{Int64}) :: Void
-	x = rx[]
-	n = rn[]
+function unsafe_fsub(n :: Int64, x :: Float64, py :: Ptr{Float64}, pdy :: Ptr{Float64}, rpar :: Ptr{Void}, ipar :: Ptr{Int64}) :: Void
+	println("Inside usafe_fstub")
 	y = unsafe_wrap(Array, py, n)
 	dy = unsafe_wrap(Array, pdy, n)
+	println("Getting the function")
 	problem = unsafe_pointer_to_objref(rpar) :: TWPBVPCProblem
+	println("Calling the function")
 	problem.fsub(x, y, dy)
+	println("Done")
 	return nothing
 end
 
-function unsafe_dfsub(rn :: Ref{Int64}, rx :: Ref{Float64}, ry :: Ptr{Float64}, rjac :: Ptr{Float64}, rpar :: Ptr{Float64}, ipar :: Ptr{Int64}) :: Void
-	x = rx[]
-	n = rn[]
+function unsafe_dfsub(n :: Int64, x :: Float64, ry :: Ptr{Float64}, rjac :: Ptr{Float64}, rpar :: Ptr{Float64}, ipar :: Ptr{Int64}) :: Void
 	y = unsafe_wrap(Array, py, n)
 	jac = unsafe_wrap(Array, pjac, (n,n))
 	problem = unsafe_pointer_to_objref(rpar) :: TWPBVPCProblem
@@ -56,14 +66,6 @@ function unsafe_dgsub(ri :: Ref{Int64}, rn :: Ref{Int64}, py :: Ptr{Float64}, pd
 	rg[] = problem.dgsub(i, y, dg)
 	return nothing
 end
-
-const fsub_ptr = cfunction(unsafe_fsub, Void, (Ref{Int64}, Ref{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Int64}))
-
-const dfsub_ptr = cfunction(unsafe_dfsub, Void, (Ref{Int64}, Ref{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Int64}))
-
-const gsub_ptr = cfunction(unsafe_gsub, Void, (Ref{Int64}, Ref{Int64}, Ptr{Float64}, Ref{Float64}, Ptr{Float64}, Ptr{Int64}))
-
-const dgsub_ptr = cfunction(unsafe_dgsub, Void, (Ref{Int64}, Ref{Int64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Int64}))
 
 """
 Thin layer of compatibility
