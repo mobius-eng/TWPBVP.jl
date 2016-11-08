@@ -11,7 +11,7 @@ module TWPBVP_Test
 	function df(x, y, jac)
 		jac[1,1] = 0.0
 		jac[1,2] = 1.0
-		jac[2,1] = 1/ϵ(-exp(y[1])+π*sin(0.5π*x)*exp(2y[1]))
+		jac[2,1] = 1/ϵ*(-exp(y[1])+π*sin(0.5π*x)*exp(2y[1]))
 		jac[1,2] = 0.0
 	end
 

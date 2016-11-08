@@ -9050,6 +9050,8 @@ C Added by Alexey Cherkaev from twpbvp.f
 
       if (iprint .ne. -1) write(6,99) uval0
    99 format(1h ,'initu, uval0',1pd15.5)
+      write(6,959) 'ncomp = ', ncomp, ' nmsh = ', nmsh, ' nudim = ', nudim
+  959 format(a, i10, a, i10, a, i10)
       call mtload(ncomp, nmsh, uval0, nudim, u)
       return
       end

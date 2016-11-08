@@ -14,11 +14,11 @@ function __init__()
 	global const libtwpbvpc = joinpath(Pkg.dir("TWPBVP"), "deps", "libtwpbvpc.so")
 	global const fsub_ptr = cfunction(unsafe_fsub, Void, (Ref{Int64}, Ref{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Void}, Ptr{Int64}))
 
-	global const dfsub_ptr = cfunction(unsafe_dfsub, Void, (Ref{Int64}, Ref{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Int64}))
+	global const dfsub_ptr = cfunction(unsafe_dfsub, Void, (Ref{Int64}, Ref{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Void}, Ptr{Int64}))
 
-	global const gsub_ptr = cfunction(unsafe_gsub, Void, (Ref{Int64}, Ref{Int64}, Ptr{Float64}, Ref{Float64}, Ptr{Float64}, Ptr{Int64}))
+	global const gsub_ptr = cfunction(unsafe_gsub, Void, (Ref{Int64}, Ref{Int64}, Ptr{Float64}, Ptr{Float64}, Ptr{Void}, Ptr{Int64}))
 
-	global const dgsub_ptr = cfunction(unsafe_dgsub, Void, (Ref{Int64}, Ref{Int64}, Ptr{Float64}, Ptr{Float64}, Ptr{Float64}, Ptr{Int64}))
+	global const dgsub_ptr = cfunction(unsafe_dgsub, Void, (Ref{Int64}, Ref{Int64}, Ptr{Float64}, Ptr{Float64}, Ptr{Void}, Ptr{Int64}))
 end
 
 
@@ -40,7 +40,7 @@ function unsafe_fsub(n :: Int64, x :: Float64, py :: Ptr{Float64}, pdy :: Ptr{Fl
 	return nothing
 end
 
-function unsafe_dfsub(n :: Int64, x :: Float64, ry :: Ptr{Float64}, rjac :: Ptr{Float64}, rpar :: Ptr{Float64}, ipar :: Ptr{Int64}) :: Void
+function unsafe_dfsub(n :: Int64, x :: Float64, py :: Ptr{Float64}, pjac :: Ptr{Float64}, rpar :: Ptr{Void}, ipar :: Ptr{Int64}) :: Void
 	y = unsafe_wrap(Array, py, n)
 	jac = unsafe_wrap(Array, pjac, (n,n))
 	problem = unsafe_pointer_to_objref(rpar) :: TWPBVPCProblem
@@ -48,22 +48,19 @@ function unsafe_dfsub(n :: Int64, x :: Float64, ry :: Ptr{Float64}, rjac :: Ptr{
 	return nothing
 end
 
-function unsafe_gsub(ri :: Ref{Int64}, rn :: Ref{Int64}, py :: Ptr{Float64}, pg :: Ref{Float64}, rpar :: Ptr{Float64}, ipar :: Ptr{Int64}) :: Void
-	i = ri[]
-	n = rn[]
+function unsafe_gsub(i :: Int64, n :: Int64, py :: Ptr{Float64}, pg :: Ptr{Float64}, rpar :: Ptr{Void}, ipar :: Ptr{Int64}) :: Void
 	y = unsafe_wrap(Array, py, n)
+	g = unsafe_wrap(Array, pg, 1)
 	problem = unsafe_pointer_to_objref(rpar) :: TWPBVPCProblem
-	rg[] = problem.gsub(i, y)
+	g[1] = problem.gsub(i, y)
 	return nothing
 end
 
-function unsafe_dgsub(ri :: Ref{Int64}, rn :: Ref{Int64}, py :: Ptr{Float64}, pdg :: Ptr{Float64}, rpar :: Ptr{Float64}, ipar :: Ptr{Int64}) :: Void
-	i = ri[]
-	n = rn[]
+function unsafe_dgsub(i :: Int64, n :: Int64, py :: Ptr{Float64}, pdg :: Ptr{Float64}, rpar :: Ptr{Void}, ipar :: Ptr{Int64}) :: Void
 	y = unsafe_wrap(Array, py, n)
 	dg = unsafe_wrap(Array, pdg, n)
 	problem = unsafe_pointer_to_objref(rpar) :: TWPBVPCProblem
-	rg[] = problem.dgsub(i, y, dg)
+	problem.dgsub(i, y, dg)
 	return nothing
 end
 
@@ -97,6 +94,7 @@ function twpbvpc(nlbc :: Int64,
 	# No need to pass these parameters
 	# u is a matrix for the solution only!
 	ncomp, nucol = size(u)
+	nudim = ncomp
 	# Get the maximum of xx
 	nxxdim = length(xx)
 	# max for mesh points must be the same as the number of column points of u
@@ -136,7 +134,7 @@ function twpbvpc(nlbc :: Int64,
 		ncomp, nlbc, aleft, aright,
 		nfxpnt, fixpnt_v, ntol, ltol, tol,
 		linear, givmsh, giveu, nmsh,
-		nxxdim, xx, nucol, u, nmax,					# nudim = nucol
+		nxxdim, xx, nudim, u, nmax,					# nudim = ncomp
 		lwrkfl, wrk, lwrkin, iwrk,
 		fsub_ptr, dfsub_ptr, gsub_ptr, dgsub_ptr,
 		ckappa1,gamma1,ckappa,pointer_from_objref(rpar),ipar,iflbvp)
