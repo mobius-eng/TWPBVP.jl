@@ -76,18 +76,39 @@
 C Just for a moment to force printing
       iprint = 1
 
+      write (6, 971) ncomp, nlbc, nfxpnt, ntol, ltol(1)
+  971 format (5I8)
+      write (*, "(A, F14.10)") 'Tol(1) = ', tol(1)
+      write (*, "(A, F10.5)") 'right = ', aright
+      write (6,972) nxxdim,nudim,lwrkfl,lwrkin
+  972 format (4I8)
+
+      write (6,973) givmsh, giveu
+  973 format (2L10)
+
 *  Check for invalid input parameters.  If any parameters are
 *  invalid, exit with the flag iflbvp set to -1.
 
       iflbvp = -1
+
+      write (6, "(a)") 'Check block 1'
       if (ncomp .le. 0)  return
       if (nlbc .lt. 0 .or. nlbc .gt. ncomp) return
       if (aleft .ge. aright) return
 
+      write (6, "(a)") 'Check block 2'
+
       if (nfxpnt .lt. 0)  return
+      write (6, "(a)") 'Check block 2-2'
       if (givmsh .and. nmsh .lt. nfxpnt+2) return
+      write (6, "(a)") 'Check block 2-3'
+      write (*, "(e10.3,3f9.5)") xx(1), xx(2), xx(3), aleft
+      write (*, "(L8)") (xx(1) .eq. aleft)
       if (givmsh .and. xx(1) .ne. aleft) return
 C     SCMODIFIED add an extra condition to avoid accessing xx(0)
+
+      write (6, "(a)") 'Check block 3'
+
       if (nmsh .gt. 0) then
         if (givmsh .and. xx(nmsh) .ne. aright) return
       end if
@@ -98,6 +119,8 @@ C     SCMODIFIED add an extra condition to avoid accessing xx(0)
             if (fixpnt(i+1) .le. fixpnt(i)) return
    50    continue
       endif
+
+      write (6, "(a)") 'Check block 4'
 
       if (ntol .lt. 1) return
       do 60 i = 1, ntol
@@ -432,6 +455,9 @@ c      save frscal
          write(6,902)
          call sprt(nmsh, xx)
       endif
+
+      write (6, 999) 'BVPSOL before INITU: nudim = ',nudim
+  999 format (a, i4)
 
       if (.not. giveu) call initu(ncomp, nmsh, xx, nudim, u,
      *     rpar,ipar  )
@@ -9050,8 +9076,8 @@ C Added by Alexey Cherkaev from twpbvp.f
 
       if (iprint .ne. -1) write(6,99) uval0
    99 format(1h ,'initu, uval0',1pd15.5)
-      write(6,959) 'ncomp = ', ncomp, ' nmsh = ', nmsh, ' nudim = ', nudim
-  959 format(a, i10, a, i10, a, i10)
+      write(6,959) 'INITU:ncomp=',ncomp,' nmsh=',nmsh,' nudim=',nudim
+  959 format(a, i8, a, i8, a, i8)
       call mtload(ncomp, nmsh, uval0, nudim, u)
       return
       end
