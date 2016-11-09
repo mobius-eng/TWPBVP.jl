@@ -3,7 +3,7 @@ module TWPBVP
 
 export twpbvpc, FInt
 
-FInt = Int64
+FInt = Int32
 
 type TWPBVPCProblem
 	fsub :: Function
@@ -136,7 +136,7 @@ function twpbvpc(nlbc :: FInt,
 		Ref{Float64}, Ptr{Void}, Ptr{FInt},		# ckappa, rpar, ipar
 		Ref{FInt}),								# iflbvp
 		ncomp, nlbc,
-		aleft, varight,
+		aleft, & aright,
 		nfxpnt, fixpnt_v,
 		ntol, ltol, tol,
 		linear, givmsh, giveu, nmsh,

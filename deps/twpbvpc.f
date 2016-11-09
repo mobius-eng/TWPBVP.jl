@@ -58,7 +58,7 @@
 *
 
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension rpar(*),ipar(*)
       dimension fixpnt(*), ltol(*), tol(*)
       dimension xx(*), u(nudim,*)
@@ -79,7 +79,7 @@ C Just for a moment to force printing
       write (6, 971) ncomp, nlbc, nfxpnt, ntol, ltol(1)
   971 format (5I8)
       write (*, "(A, F14.10)") 'Tol(1) = ', tol(1)
-      write (*, "(A, F10.5)") 'right = ', aright
+      write (*, "(A, F10.5)") 'aright = ', aright
       write (6,972) nxxdim,nudim,lwrkfl,lwrkin
   972 format (4I8)
 
@@ -331,7 +331,7 @@ C     SCMODIFIED add an extra condition to avoid accessing xx(0)
      *   def6, def8, fsub, dfsub, gsub, dgsub, iflbvp,
      *   amg, c1, wrkrhs,ckappa1,gamma1,ckappa,rpar,ipar)
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension rpar(*), ipar(*)
       dimension  fixpnt(*), ltol(ntol), tol(ntol)
       dimension  xx(*), u(nudim, *)
@@ -1116,7 +1116,7 @@ c
      *             amg,stab_cond,ckappa,stiff_cond,r4,
      *              nfxpnt, fixpnt, irefin,rpar,ipar)
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension rpar(*), ipar(*)
       dimension ltol(ntol), ipivot(*)
       dimension xx(*), u(nudim,*), tol(ntol)
@@ -1393,7 +1393,7 @@ c      if (stiff_cond .and. stab_cond) onto6 = .true.
      *                                                      rpar,ipar)
 
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension rpar(*),ipar(*)
       dimension ltol(ntol)
       dimension xx(*), u(nudim, *), rhs(*)
@@ -1458,7 +1458,7 @@ c     *                            (itnwt.le.2 .and. iflnwt.ne.0)) then
      *             nudim, u, uold, etest6, err6,
      *             trst6, onto8, reaft6, succes)
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension ltol(ntol)
       dimension u(nudim,*), tol(ntol)
       dimension uold(ncomp,*), etest6(*)
@@ -1505,7 +1505,7 @@ c     *                            (itnwt.le.2 .and. iflnwt.ne.0)) then
      *              numbig, nummed,
      *             r4,amg, stab_cond,ckappa1,gamma1,ckappa,stiff_cond,
      *            itcond, itcondmax)
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension ltol(ntol)
       dimension fixpnt(*), tol(*), rhs(*)
       dimension xx(*), u(nudim,*), xxold(*)
@@ -1706,7 +1706,7 @@ cf controllare se posso mettere 2
      *              r4, amg,stab_cond,ckappa1,gamma1,ckappa,stiff_cond,
      *    rpar,ipar)
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension rpar(*), ipar(*)
       dimension ltol(ntol), tol(ntol)
       dimension fixpnt(*)
@@ -1918,7 +1918,7 @@ c we do not use u but uold
      *      ihcomp, irefin, ermx, ddouble , maxmsh,
      *       r4,amg, stiff_cond, stab_cond)
 
-      implicit double precision(a-h,o-z)
+      implicit real*8(a-h,o-z)
       dimension fixpnt(*), ltol(ntol), tol(ntol)
       dimension xx(*), u(nudim,*), def6(ncomp,*)
       dimension xxold(*), uold(ncomp,*)
@@ -1969,7 +1969,7 @@ c we do not use u but uold
      *                     ratdc, dfexmx, incmp, inmsh, intol,
      *                     derivm, dfimmx, rat1, rat2)
 
-      implicit double precision  (a-h,o-z)
+      implicit real*8  (a-h,o-z)
 
       dimension  ltol(ntol)
       dimension  defexp(ncomp,nmsh-1), defimp(ncomp,nmsh-1)
@@ -2077,7 +2077,7 @@ c we do not use u but uold
      *     onto6, smooth, callrt, strctr, oscchk, ddouble , reposs)
 
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
 
       logical linear, onto6, smooth, callrt, strctr,
      *     oscchk, ddouble , reposs
@@ -2205,7 +2205,7 @@ c we do not use u but uold
       subroutine dfexcl (ncomp, nmsh, xx, nudim, u, defexp, fval,
      *               tmp, fsub,rpar,ipar)
 
-      implicit double precision (a-h, o-z)
+      implicit real*8 (a-h, o-z)
       integer ncomp, nmsh
       dimension rpar(*), ipar(*)
       dimension xx(nmsh), u(nudim,nmsh), fval(ncomp, nmsh)
@@ -2273,7 +2273,7 @@ c we do not use u but uold
 *   which are stored in def8.
 *   The array tmp is workspace for 8 intermediate vectors.
 
-      implicit double precision (a-h, o-z)
+      implicit real*8 (a-h, o-z)
       integer ncomp, nmsh
       dimension rpar(*),ipar(*)
       dimension xx(nmsh), u(nudim,nmsh), fval(ncomp,nmsh)
@@ -2359,7 +2359,7 @@ c we do not use u but uold
 
       subroutine dfimcl( ncomp, nmsh, defexp, chold, dsq, dexr,
      *                 ipivot, defimp)
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension defexp(ncomp, nmsh-1), chold(ncomp, ncomp, nmsh-1)
       dimension dsq(ncomp, ncomp), dexr(ncomp)
       dimension ipivot(ncomp), defimp(ncomp, nmsh-1)
@@ -2395,7 +2395,7 @@ c we do not use u but uold
       subroutine osc (ncomp, nmsh, dfexmx, incmp,
      *     defcor, ratdc, ddouble , inmsh, onto6, trst6, smooth)
 
-      implicit double precision (a-h, o-z)
+      implicit real*8 (a-h, o-z)
       dimension defcor(ncomp, *), ratdc(*)
 
       logical ddouble , onto6, trst6, smooth
@@ -2519,7 +2519,7 @@ c we do not use u but uold
 
 
       subroutine ratcor ( ncomp, nmsh, xx, defimp, bhold, dfrat)
-      implicit double precision (a-h, o-z)
+      implicit real*8 (a-h, o-z)
       dimension xx(nmsh), defimp(ncomp,nmsh-1)
       dimension dfrat(ncomp,nmsh-1), bhold(ncomp,ncomp,nmsh-1)
 
@@ -2549,7 +2549,7 @@ c we do not use u but uold
 
       subroutine stcons
 
-      implicit double precision  (a-h,o-z)
+      implicit real*8  (a-h,o-z)
 
 *  stcons computes constants needed in integration formulae
 *  and stores them in a labeled common area.
@@ -2660,7 +2660,7 @@ c we do not use u but uold
 
 * Fixed Jacobian iterations.
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension rpar(*), ipar(*)
       dimension  ltol(ntol), tol(ntol)
       dimension  xx(nmsh), u(nudim,nmsh), defcor(ncomp,nmsh-1)
@@ -2832,7 +2832,7 @@ c we do not use u but uold
 *     calls to: lnrhs, jaccal, dcopy, colrow, dload, dload, clrslve
 *           maxpy
 **********************************************************************
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension rpar(*), ipar(*)
       dimension  xx(nmsh), u(nudim, nmsh), defcor(ncomp, nmsh-1)
       dimension  delu(ncomp, nmsh), rhs(ncomp*nmsh)
@@ -2945,7 +2945,7 @@ c      iflag = 0
 *     call by: bvpsol
 *     calls to:
 ******************************************************************
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
          dimension rpar(*), ipar(*)
       dimension  ltol(*), tol(*), xx(*)
       dimension  fval(ncomp,*)
@@ -3295,7 +3295,7 @@ c  at the initial point of the line search.
 
 *  Logic for watchdog tests.
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       parameter ( itonew = 5, itwtmx = 8, grfct = 80.0d+0 )
       parameter ( half = 0.5d+0 )
 
@@ -3363,7 +3363,7 @@ c  at the initial point of the line search.
 
 
       subroutine fneval(ncomp, nmsh, xx, nudim, u, fval, fsub,rpar,ipar)
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension rpar(*),ipar(*)
       dimension xx(nmsh), u(nudim,nmsh), fval(ncomp,nmsh)
       external fsub
@@ -3394,7 +3394,7 @@ c  at the initial point of the line search.
      *   ajac, topblk, botblk, bhold, chold,
      *   dfsub, dgsub,rpar,ipar)
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
        dimension rpar(*), ipar(*)
       dimension xx(nmsh), u(nudim,nmsh), fval(ncomp,nmsh)
       dimension dgtm(ncomp)
@@ -3518,7 +3518,7 @@ c      write(6,992) botblk(1,1),botblk(1,2)
      *   xx, nudim, u, fsub, gsub,
      *   rhs, rnsq, fval, ftmp, uint,rpar,ipar)
 
-       implicit double precision(a-h,o-z)
+       implicit real*8 (a-h,o-z)
 
 *  This subroutine is designed to calculate the right-hand
 *  side for linear problems.
@@ -3582,7 +3582,7 @@ c      write(6,992) botblk(1,1),botblk(1,2)
      *   fsub, gsub,
      *   rhs, rnsq, fval, ftmp, uint,rpar,ipar)
 
-       implicit double precision(a-h,o-z)
+       implicit real*8 (a-h,o-z)
 
 *  This subroutine constructs the (ncomp*nmsh)-dimensional
 *  vector rhs, which is the right-hand side of the Newton equations.
@@ -3663,7 +3663,7 @@ c      write(6,992) botblk(1,1),botblk(1,2)
       end
 
       subroutine dblmsh (nmsh, nmax, xx, nmold, xxold, maxmsh)
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension xx(*), xxold(*)
       logical maxmsh
 
@@ -3729,7 +3729,7 @@ c      write(6,992) botblk(1,1),botblk(1,2)
      *     xx, nudim, u, ermeas, irefin, ihcomp,
      *     nmold, xxold, ermx, ddouble , maxmsh)
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
 
       dimension  ltol(ntol), tol(ntol), fixpnt(*)
       dimension  xx(*), u(nudim, *), ermeas(ncomp,*)
@@ -4051,7 +4051,7 @@ c         nmsh = 2*nmsh - 1
        subroutine smpmsh (nmsh, nmax, xx, intref, numadd,
      *      nmold, xxold, maxmsh)
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       logical maxmsh
       dimension xx(*), xxold(*)
 
@@ -4180,7 +4180,7 @@ c         nmsh = 2*nmsh - 1
 
 
       subroutine unimsh(nmsh, aleft, aright, nfxpnt, fixpnt, xx)
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       integer  nmsh, nfxpnt
       dimension fixpnt(*), xx(nmsh)
 
@@ -4276,7 +4276,7 @@ c
 
 
       subroutine stats(len, elem, ebigst, esecnd, summod, index)
-      implicit double precision (a-h, o-z)
+      implicit real*8 (a-h, o-z)
       integer index
       dimension elem(len)
 
@@ -4318,7 +4318,7 @@ c
      *              numbig, nummed,amg,stab_cond,stiff_cond,r4,
      *              nfxpnt, fixpnt,irefin,itcond,itcondmax)
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
 
       dimension  ltol(ntol)
       dimension  rhs(ncomp*nmsh), tmwork(nmsh-1)
@@ -4525,7 +4525,7 @@ cf
       subroutine errest (ncomp, nmsh, ntol, ltol, tol,
      *   nudim, u, uold, etest, errsum, errok)
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension ltol(ntol), tol(ntol), u(nudim,nmsh),
      *              uold(ncomp,nmsh), etest(ntol)
       logical errok
@@ -4583,7 +4583,7 @@ cf
      *                   braktd, crampd, extrap,vset,wset,nsamea,nsameb,
      *                   a, b, fa, factor, fv, fw, xtry, xv, xw )
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       logical            debug, imprvd
       logical            braktd, crampd, extrap, vset, wset
       integer            mfsrch, nout, inform, nfsrch, nsamea, nsameb
@@ -5238,7 +5238,7 @@ c  end of getptq
       subroutine interp(ncomp, nmsh, xx, nudim, u,
      *                    nmold, xxold, uold)
 
-      implicit double precision (a-h, o-z)
+      implicit real*8 (a-h, o-z)
       dimension xx(*), u(nudim,*), xxold(*), uold(ncomp,*)
       logical pdebug, use_c, comp_c
       common/algprs/ nminit, pdebug, iprint, idum, uval0, use_c, comp_c
@@ -5302,7 +5302,7 @@ c  end of getptq
 
       subroutine rerrvl( ncomp, nmsh, nudim, u, usvrex, ntol, ltol,
      *          rerr, remax, itlmx, adjrer )
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension ltol(*)
       dimension u(nudim, *), usvrex(ncomp, *)
       dimension rerr(ncomp, *)
@@ -5364,7 +5364,8 @@ c  end of getptq
       return
       end
 
-      double precision function dasum(n,dx,incx)
+C      double precision
+      real*8 function dasum(n,dx,incx)
 c#
 c#     takes the sum of the absolute values.
 c#     jack dongarra, linpack, 3/11/78.
@@ -5416,7 +5417,7 @@ c#
      *     xx, nudim, u, ermeas, irefin, ihcomp, nmold, xxold,
      *     ermx, ddouble , maxmsh,r4,amg,stab_cond)
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
 
       dimension  ltol(ntol), tol(ntol), fixpnt(*)
       dimension  xx(*), u(nudim, *), ermeas(ncomp,*)
@@ -5787,7 +5788,7 @@ c   endif use the conditioning and the error
      *     nfxpnt, fixpnt,  nmax, xx,  irefin,
      *     nmold, xxold, ddouble , maxmsh, r4, amg)
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
 
       dimension  fixpnt(*)
       dimension  xx(*)
@@ -6047,7 +6048,7 @@ c   endif use the conditioning and the error
      *     nfxpnt, fixpnt,  nmax, xx,  irefin, intref, numadd,
      *     nmold, xxold, ddouble , maxmsh, r4, amg)
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
 
       dimension  fixpnt(*)
       dimension  xx(*)
@@ -6328,7 +6329,7 @@ c   endif use the conditioning and the error
       subroutine moncondmsh(nmsh,xx,r1,r2,r3,fatt_r1r3,fatt_r3,
      *                        nptcond,r4,amg)
 
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
 
       dimension  xx(*)
       dimension  amg(*), r4(*)
@@ -6409,7 +6410,8 @@ c   endif use the conditioning and the error
 
 C==================================================================
 C
-        DOUBLE PRECISION FUNCTION ABDNRM(NBLOKS,NTOP,NBOT,NOVRLP,
+C        DOUBLE PRECISION
+        REAL*8 FUNCTION ABDNRM(NBLOKS,NTOP,NBOT,NOVRLP,
      *                            NRWBLK,NCLBLK,TOP,A,BOT)
 
 C******************************************************************
@@ -6675,7 +6677,8 @@ C
 
 c This is the code that has gone into netlib as a replacement.
 
-      DOUBLE PRECISION FUNCTION D1MACH(I)
+C      DOUBLE PRECISION
+      REAL*8 FUNCTION D1MACH(I)
       INTEGER I
 C
 C  DOUBLE-PRECISION MACHINE CONSTANTS
@@ -7219,7 +7222,7 @@ C
 
       subroutine sprt(n, array)
 * sprt prints an array.
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension array(n)
 
       write(6,900) (array(i), i=1,n)
@@ -7229,7 +7232,7 @@ C
 
       subroutine mprt(nrowd, nrow, ncol, array)
 * mprt prints a matrix.
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension array(nrowd, ncol)
 
       do 400 i = 1, nrow
@@ -7532,7 +7535,7 @@ C                         =  0, OTHERWISE
 C
 C***************************************************************
 C
-      IMPLICIT DOUBLE PRECISION(A-H,O-Z)
+      implicit real*8(A-H,O-Z)
       INTEGER PIVOT(*)
       DIMENSION TOPBLK(NRWTOP,*),ARRAY(NRWBLK,NCLBLK,*),BOTBLK(NRWBOT,*)
       DATA ZERO / 0.0D+0 /
@@ -8503,7 +8506,7 @@ C       RETURN FROM THE SOLUTION OF A-TRANSPOSE.X = B
 
 
       subroutine lufac(n, ndim, a, ip, ier)
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension a(ndim,n), ip(n)
       intrinsic abs
 *  blas: daxpy, dscal, dswap. idamax
@@ -8567,7 +8570,7 @@ C       RETURN FROM THE SOLUTION OF A-TRANSPOSE.X = B
       end
 
       subroutine lusol (n, ndim, a, ip, b, x)
-      implicit double precision (a-h, o-z)
+      implicit real*8 (a-h, o-z)
       dimension a(ndim,n), ip(n), b(n), x(n)
 
 *  blas:  daxpy, dcopy
@@ -8607,7 +8610,7 @@ C       RETURN FROM THE SOLUTION OF A-TRANSPOSE.X = B
       end
 
       subroutine dcopy ( n, x, incx, y, incy )
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       integer            n, incx, incy
       dimension          x( * ), y( * )
 
@@ -8657,7 +8660,7 @@ c     sven hammarling, nag central office.
       end
 
       subroutine daxpy ( n, alpha, x, incx, y, incy )
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       integer            n, incx, incy
       dimension   x( * ), y( * )
 
@@ -8707,8 +8710,9 @@ c     sven hammarling, nag central office.
 
       end
 
-      double precision function ddot  ( n, x, incx, y, incy )
-      implicit double precision (a-h,o-z)
+C      double precision
+      real*8 function ddot  ( n, x, incx, y, incy )
+      implicit real*8 (a-h,o-z)
       integer           n, incx, incy
       dimension         x( * ), y( * )
 
@@ -8761,7 +8765,7 @@ c     sven hammarling, nag central office.
       end
 
       subroutine dscal ( n, alpha, x, incx )
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       integer          n, incx
       dimension        x( * )
 
@@ -8801,7 +8805,7 @@ c     sven hammarling, nag central office.
       end
 
       subroutine dswap ( n, x, incx, y, incy )
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       integer      n, incx, incy
       dimension    x( * ), y( * )
 
@@ -8857,7 +8861,7 @@ c     sven hammarling, nag central office.
       end
 
       integer function idamax( n, x, incx )
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       integer         n, incx
       dimension       x( * )
 
@@ -8900,7 +8904,7 @@ c     sven hammarling, nag central office.
 
       end
       subroutine dload ( n, const, x, incx )
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension  x(*)
 c
 c  dload  performs the operation
@@ -8935,7 +8939,7 @@ c
 
 
       subroutine maxpy ( nrow, ncol, alpha, xmat, nrowy, ymat )
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension xmat(nrow, ncol), ymat(nrowy, ncol)
 
 *  Subroutine maxpy takes as input the scalar alpha and two matrices,
@@ -8954,7 +8958,7 @@ c
 
 
       subroutine matcop( nrow1, nrow2, nrow, ncol, xmat1, xmat2 )
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension xmat1(nrow1, ncol), xmat2(nrow2, ncol)
 
 *  Given 2 matrices xmat1 and xmat2, where xmat1 has declared
@@ -8973,7 +8977,7 @@ c
       end
 
       subroutine mtload( nrow, ncol, const, nrowx, xmat )
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension xmat(nrowx, ncol)
 
 *  mtload sets elements 1 through nrow, 1 through ncol, of the
@@ -8991,7 +8995,7 @@ c
 
 
       subroutine mssq  ( nrow, ncol, xmat, scale, sumsq )
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension   xmat(nrow, *)
 
 *  Given the nrow by ncol matrix xmat, mssq returns values
@@ -9024,7 +9028,7 @@ c
       end
 
       subroutine dssq  ( n, x, incx, scale, sumsq )
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       integer            n, incx
       dimension   x( * )
 
@@ -9061,7 +9065,7 @@ C Was absent from the main code
 C Added by Alexey Cherkaev from twpbvp.f
 
       subroutine initu(ncomp, nmsh, xx, nudim, u, rpar, ipar)
-      implicit double precision (a-h,o-z)
+      implicit real*8 (a-h,o-z)
       dimension xx(*), u(nudim, *)
       dimension rpar(*), ipar(*)
 

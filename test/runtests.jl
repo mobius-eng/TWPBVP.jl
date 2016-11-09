@@ -25,29 +25,32 @@ module TWPBVP_Test1
 		jac[2] = 0.0
 	end
 
-	# Other constants & values
-	const fxpoint = Nullable{Vector{Float64}}()
-	const ltol = [1]
-	const tol = [1e-2]
-	const u = Array(Float64, 2, 1000)
-	const xx = Array(Float64, 1000)
-	const wrk = Array(Float64, 10000)
-	const iwrk = Array(Int64, 6000)
-	const num_left_bc = 1
-	const left = 0.0
-	const right = 1.0
-	const linear = false
-	const giveu = false
-	const givmsh = false
-	const nmesh = Ref(0)
-	const nmax = Ref(0)
-	const κ1 = Ref(1.0)
-	const κ = Ref(1.0)
-	const γ1 = Ref(1.0)
-	const result = Ref(0)
 
-	perform() =
+	function perform()
+
+		# Other constants & values
+		fxpoint = Nullable{Vector{Float64}}()
+		local ltol :: Vector{FInt} = [1]
+		tol = [1e-2]
+		u = Array(Float64, 2, 1000)
+		xx = Array(Float64, 1000)
+		wrk = Array(Float64, 10000)
+		iwrk = Array(FInt, 6000)
+		local num_left_bc :: FInt = 1
+		left = 0.0
+		right = 1.0
+		linear = false
+		giveu = false
+		givmsh = false
+		nmesh = Ref{FInt}(0)
+		nmax = Ref{FInt}(0)
+		κ1 = Ref(1.0)
+		κ = Ref(1.0)
+		γ1 = Ref(1.0)
+		result = Ref{FInt}(0)
+
 		twpbvpc(num_left_bc, left, right, fxpoint, ltol, tol, linear, givmsh, giveu, nmesh, xx, u, nmax, wrk, iwrk, f, df, g, dg, κ1, γ1, κ, result)
+	end
 
 end
 
@@ -69,8 +72,8 @@ module TWPBVP_Test2
 
 	g(i, y) = i == 1 ? y[1] - 1.0 : y[1] + 1.0
 
-	function dg(i, t, y, grad)
-		gard[:] = [1.0, 0.0]
+	function dg(i :: FInt, y :: Vector{Float64}, grad :: Vector{Float64})
+		grad[:] = [1.0, 0.0]
 	end
 
 	function perform()
@@ -118,8 +121,8 @@ module TWPBVP_Test2
 end
 
 using Base.Test
-import TWPBVP_Test2
+import TWPBVP_Test1
 
-TT = TWPBVP_Test2
+TT = TWPBVP_Test1
 
 TT.perform()
